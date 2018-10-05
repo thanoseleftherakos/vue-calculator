@@ -56,15 +56,27 @@ export default {
       let num = parseInt(String.fromCharCode(keyCode), 10);
       if (keyCode == 13) {
         this.handle_equal();
-      } //enter keyboard
+      }
       if (isNaN(num)) {
         let operator = String.fromCharCode(keyCode);
-        const oparators = ["+", "-", "/", "%", "√", "%"];
+        const oparators = ["+", "-", "/", "*", "√", "%"];
         if (oparators.find(k => k == operator)) {
           this.handle_operator(operator);
         }
       } else {
         this.handle_input(num);
+      }
+    });
+    window.addEventListener("keydown", e => { 
+      let keyCode = e.keyCode || e.which;
+      if(keyCode == 8) { //reset keyboard
+        if(this.calculator.current_value.length > 1) {
+          this.calculator.current_value = this.calculator.current_value.substring(0, this.calculator.current_value.length - 1);    
+          this.calculator.display_value = this.calculator.current_value;
+        } else if(this.calculator.current_value.length == 1) {
+          this.calculator.current_value = 0;
+          this.calculator.display_value = this.calculator.current_value;
+        }
       }
     });
   },
