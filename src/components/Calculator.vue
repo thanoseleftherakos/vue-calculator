@@ -6,9 +6,10 @@
                 <div class="calculator__screen__result" :style="{fontSize: display_scale + 'em'}">{{ calculator.display_value }}</div>
             </div>
             <div class="calculator__buttons">
-                <div class="calculator__buttons__item" tabindex="1" @click="reset"><span>C</span></div>
+                <div class="calculator__buttons__item" tabindex="1" @click="reset"><span>{{calculator.clear_clicked ? 'AC' : 'C'}}</span></div>
                 <div class="calculator__buttons__item" tabindex="1" @click="handle_sign('±')"><span>±</span></div>
-                <div class="calculator__buttons__item" tabindex="1" @click="handle_math('%')"><span>%</span></div>
+                <!-- <div class="calculator__buttons__item" tabindex="1" @click="handle_math('%')"><span>%</span></div>-->
+                <div class="calculator__buttons__item" tabindex="1" @click="handle_math('pow')"><span>×<sup>2</sup></span></div>
                 <div class="calculator__buttons__item" tabindex="1" @click="handle_math('√')"><span>√</span></div>
                 <div class="calculator__buttons__item" tabindex="1" @click="handle_input(7)"><span>7</span></div>
                 <div class="calculator__buttons__item" tabindex="1" @click="handle_input(8)"><span>8</span></div>
@@ -40,6 +41,7 @@ export default {
       calculator: {
         current_operator: null,
         current_value: "",
+        clear_clicked: false,
         display_value: 0,
         finished: true,
         math: null,
@@ -77,10 +79,14 @@ export default {
   },
   methods: {
     reset() {
-      this.calculator.current_operator = null;
+      if(this.calculator.clear_clicked) {
+        this.calculator.current_operator = null;
+        this.calculator.total_value = 0;
+        this.calculator.formula = " ";
+      } 
       this.calculator.current_value = "";
       this.calculator.display_value = 0;
-      this.calculator.formula = " ";
+      this.calculator.clear_clicked = !this.calculator.clear_clicked;
     },
     handle_operator(operator) {
       this.calculator.finished = false;
@@ -118,6 +124,11 @@ export default {
           this.calculator.total_value = this.calculator.total_value
             ? this.calculator.total_value / 100
             : this.calculator.current_value / 100;
+          break;
+        case "pow":
+          this.calculator.total_value = this.calculator.total_value
+            ?  Math.pow(this.calculator.total_value,2)
+            :  Math.pow(this.calculator.current_value,2);
           break;
       }
       this.calculator.formula = `${this.calculator.formula}${this.calculator.current_value} ${symbol} `;
