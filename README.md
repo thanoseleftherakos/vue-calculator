@@ -1,4 +1,5 @@
 # vue-calculator
+Simple and clean calculator with keyboard support 
 
 ## Project setup
 ```
