@@ -1,6 +1,9 @@
 # vue-calculator
 Simple and clean calculator with keyboard support 
 
+## Demo
+https://thanoseleftherakos.github.io/vue-calculator
+
 ## Project setup
 ```
 yarn install
