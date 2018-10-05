@@ -139,6 +139,9 @@ export default {
       if (this.calculator.finished) {
         this.calculator.formula = "";
       }
+      if(this.calculator.clear_clicked) {
+        this.calculator.clear_clicked = !this.calculator.clear_clicked;
+      }
       this.calculator.current_value = `${this.calculator.current_value}${number}`;
       this.calculator.display_value = this.calculator.current_value;
     },
